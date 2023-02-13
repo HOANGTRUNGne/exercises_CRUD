@@ -1,16 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import AddProduct from "./AddProduct";
-import EditProduct from "./EditProduct";
 import TableProduct from "./TableProduct";
-import {v4 as uuidv4} from "uuid";
 import {create, getAll, removeCustomerByKey, updateByKey, updateProductByKey} from "../../api/CRUD";
+import {Button} from "antd";
+import ModalFormProduct from "./ModalFormProduct";
 
 const Product = () => {
     const [product, setProduct] = useState([])
-    const [modalProduct, setModalProduct] = useState(false);
-    const [modalEditProduct, setModalEditProduct] = useState(false);
-    const [editingProduct, setEditingProduct] = useState(false);
-    // const [validateName, setNalidateName] = useState(true)
+    const [editingProduct, setEditingProduct] = useState({selectProduct: {}, isOpen: false});
 
     useEffect(() => {
         fetchDataProduct()
@@ -21,52 +17,41 @@ const Product = () => {
         setProduct(data)
     }
     const deleteProduct = async (key) => {
-        console.log(key)
         const newData = product.filter((item) => item.key !== key);
         setProduct(newData);
         await removeCustomerByKey("product", key)
         fetchDataProduct()
     }
-    // Add Product
-    const addFinish = async (values) => {
-        const name = values.name
-        const quantity = values.quantity
+
+    const onFinish = async (values) => {
+        const {key} = values
+        key ? await editProduct(values) : await addProduct(values)
+    };
+    const addProduct = async (values) => {
+        const {name, quantity} = values
         const keyuuid = Date.now()
         const payload = {keyuuid, name, quantity}
         await create("product", payload)
         fetchDataProduct()
-        setModalProduct(!modalProduct)
-    };
-    // Edit
-    const showEditProduct = (record) => {
-        setEditingProduct({...record})
-        setModalEditProduct(true);
-    };
-
-    const editFinishProduct = async (values) => {
-        console.log(values)
-        const data = product.find(e => e.key === editingProduct.key);
-        const newProduct = {...data, name: values.name, quantity: values.quantity}
-        await updateProductByKey("product", editingProduct.key, newProduct)
+        setEditingProduct({isOpen: false})
+    }
+    const editProduct = async (values) => {
+        const {key} = values
+        await updateProductByKey("product", key, values)
         fetchDataProduct()
-        setModalEditProduct(false);
-    };
-
-    const cancelModalEditProduct = () => {
-        setModalEditProduct(false);
+        setEditingProduct({isOpen: false})
     };
 
     return (
         <>
-            <AddProduct {...{product, addFinish, modalProduct, setModalProduct}} />
-            <EditProduct {...{
-                modalEditProduct,
-                showEditProduct,
-                cancelModalEditProduct,
-                editFinishProduct,
-                editingProduct
-            }} />
-            <TableProduct {...{product, showEditProduct, deleteProduct}}/>
+            <Button type="primary" onClick={() => setEditingProduct({isOpen: true})}
+                    style={{margin: '30px 0'}}>
+                New Product
+            </Button>
+
+            <ModalFormProduct {...{product, editingProduct, setEditingProduct, onFinish}} />
+
+            <TableProduct {...{product, setEditingProduct, editingProduct, deleteProduct}}/>
         </>
     );
 };

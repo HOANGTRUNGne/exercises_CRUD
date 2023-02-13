@@ -33,6 +33,7 @@ function App() {
 
 
                 <Routes>
+                    <Route path={'/'} element={<User />}/>
                     <Route path={'/user'} element={<User />}/>
                     <Route path={'/product'} element={<Product />}/>
 
