@@ -1,8 +1,9 @@
 import React from 'react';
 import {Space, Table} from "antd";
 import Image from '../../image/image.svg'
+
 const TableProduct = (props) => {
-    const {product, deleteProduct, showEditProduct} = props
+    const {product, deleteProduct, setEditingProduct} = props
     const columns = [
         {
             title: 'Id',
@@ -34,7 +35,7 @@ const TableProduct = (props) => {
             key: 'action',
             render: (_, record) => (
                 <Space size="middle">
-                    <a onClick={() => showEditProduct(record)}>Edit</a>
+                    <a onClick={() => setEditingProduct({selectProduct: record, isOpen: true})}>Edit</a>
                     <a onClick={() => deleteProduct(record.key)}>Delete</a>
                 </Space>
             ),
@@ -43,7 +44,7 @@ const TableProduct = (props) => {
     ];
     return (
         <>
-            <Table columns={columns} dataSource={product} />
+            <Table columns={columns} dataSource={product}/>
         </>
     );
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import {Space, Table} from "antd";
 
 const TableUser = (props) => {
-    const {modalEditUser, deleteRecord, customers} = props
+    const {setEditingUser, deleteRecord, customers} = props
     const columns = [
         {
             title: 'ID',
@@ -24,12 +24,10 @@ const TableUser = (props) => {
         {
             title: 'Action',
             key: 'action',
-            render: (_, record) => (
-                <Space size="middle">
-                    <a onClick={() => modalEditUser(record)}>Edit</a>
-                    <a onClick={() => deleteRecord(record.key)}>Delete</a>
-                </Space>
-            ),
+            render: (_, record) => <Space size="middle">
+                <a onClick={() => setEditingUser({selectedUser: record, handleModalUser: true})}>Edit</a>
+                <a onClick={() => deleteRecord(record.key)}>Delete</a>
+            </Space>
         },
     ];
     return (

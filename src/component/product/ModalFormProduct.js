@@ -1,53 +1,49 @@
-import React, {useState} from 'react';
-import {Alert, Button, Form, Input, InputNumber, Modal, Upload} from "antd";
+import React from 'react';
+import {Button, Form, Input, InputNumber, Modal, Upload} from "antd";
 
 function PlusOutlined() {
     return null;
 }
 
-const AddProduct = (props) => {
-    const {addFinish, addFailed, modalProduct, setModalProduct, validateName, product} = props
-    const showModal = () => {
-        setModalProduct(true);
-    };
-    const handleCancel = () => {
-        setModalProduct(false);
-    };
+const ModalFormProduct = (props) => {
+
+    const {onFinish, product = [], editingProduct = {}, setEditingProduct} = props
+    const {selectProduct = {}, isOpen} = editingProduct
+    const {name = '', quantity = Number, key} = selectProduct
+    const finish = (values) => {
+        onFinish({...values, key: selectProduct?.key})
+    }
     return (
-        <div style={{display: 'block'}}>
-            <Button type="primary" onClick={showModal} style={{margin: '30px 0'}}>
-                Open Modal
-            </Button>
-            <Modal title="Insert Product" open={modalProduct} footer={null} onCancel={handleCancel} destroyOnClose>
+        <>
+            <Modal title={key ? "Edit Product" : "Insert Product"} open={isOpen}
+                   onCancel={() => setEditingProduct({isOpen: false})}
+                   footer={null}
+                   destroyOnClose={true}>
                 <Form
                     name="basic"
                     labelCol={{span: 8}}
                     wrapperCol={{span: 16}}
                     style={{maxWidth: 600}}
-                    onFinish={addFinish}
-                    onFinishFailed={addFailed}
+                    onFinish={finish}
                     autoComplete="off"
-                    initialValues={{quantity: 123}}
+                    initialValues={{name: name, quantity: quantity}}
                 >
                     <Form.Item
                         label="Product Name"
                         name="name"
                         rules={[{required: true, message: 'Please input your username!'},
+                            {whitespace: true, message: `don't white space`},
                             {
-                                validator(rule, value ) {
+                                validator(rule, value) {
                                     return new Promise((resolve, reject) => {
                                         const findProductNamesake = product.some(e => e.name === value)
-                                        if (!findProductNamesake) {
-                                            resolve()
-                                        }else {
-                                            reject(`Namesake! let's give another name`)
-                                        }
+                                        !findProductNamesake ? resolve() : reject(`Namesake! let's give another name`)
                                     })
                                 }
                             },
                         ]}
                     >
-                        <Input />
+                        <Input/>
                     </Form.Item>
 
                     <Form.Item
@@ -57,7 +53,7 @@ const AddProduct = (props) => {
                             {required: true, message: 'Please input your number quantity!'},
                         ]}
                     >
-                        <InputNumber min={0} />
+                        <Input type={'number'} min={0}/>
                     </Form.Item>
 
                     <Form.Item label="Upload" valuePropName="fileList">
@@ -69,16 +65,15 @@ const AddProduct = (props) => {
                         </Upload>
                     </Form.Item>
 
-
                     <Form.Item wrapperCol={{offset: 8, span: 16}}>
                         <Button type="primary" htmlType="submit">
-                            Add Product
+                            {key ? 'Update Product' : 'Add Product'}
                         </Button>
                     </Form.Item>
                 </Form>
             </Modal>
-        </div>
+        </>
     );
 };
 
-export default AddProduct;
+export default ModalFormProduct;
