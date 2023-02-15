@@ -20,15 +20,24 @@ const TableProduct = (props) => {
             key: 'id',
         },
         {
-            width: '300px',
+            width: '200px',
             title: 'Product Name',
             dataIndex: 'name',
             key: 'name',
         },
         {
             title: 'Quantity ',
+            width: '100px',
+            align: 'center',
             dataIndex: 'quantity',
             key: 'quantity',
+        },
+        {
+            title: 'Price ',
+            width: '100px',
+            align: 'center',
+            dataIndex: 'price',
+            key: 'price',
         },
         {
             title: 'Action',

@@ -61,11 +61,10 @@ export const updateByKey = (collection, key, data) => {
 }
 export const updateProductByKey = (collection, key, data) => {
     const db = getDatabase()
-    const name = data.name
-    const quantity = data.quantity
+    const {name, quantity, price} = data
     const userUpdate = ref(db, `${collection}/${key}`)
 
-    update(userUpdate, {name, quantity}).then(() => {
+    update(userUpdate, {name, quantity, price}).then(() => {
         console.log("Data updated");
     }).catch((e) => {
         console.log('fail');

@@ -28,9 +28,9 @@ const Product = () => {
         key ? await editProduct(values) : await addProduct(values)
     };
     const addProduct = async (values) => {
-        const {name, quantity} = values
+        const {name, price, quantity} = values
         const keyuuid = Date.now()
-        const payload = {keyuuid, name, quantity}
+        const payload = {keyuuid, name, quantity, price}
         await create("product", payload)
         fetchDataProduct()
         setEditingProduct({isOpen: false})

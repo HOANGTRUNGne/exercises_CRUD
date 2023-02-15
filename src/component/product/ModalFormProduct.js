@@ -9,7 +9,7 @@ const ModalFormProduct = (props) => {
 
     const {onFinish, product = [], editingProduct = {}, setEditingProduct} = props
     const {selectProduct = {}, isOpen} = editingProduct
-    const {name = '', quantity = Number, key} = selectProduct
+    const {name = '', price = Number, quantity = Number, key} = selectProduct
     const finish = (values) => {
         onFinish({...values, key: selectProduct?.key})
     }
@@ -26,7 +26,7 @@ const ModalFormProduct = (props) => {
                     style={{maxWidth: 600}}
                     onFinish={finish}
                     autoComplete="off"
-                    initialValues={{name: name, quantity: quantity}}
+                    initialValues={{name: name, quantity:quantity, price: price}}
                 >
                     <Form.Item
                         label="Product Name"
@@ -37,7 +37,7 @@ const ModalFormProduct = (props) => {
                                 validator(rule, value) {
                                     return new Promise((resolve, reject) => {
                                         const findProductNamesake = product.some(e => e.name === value)
-                                        !findProductNamesake ? resolve() : reject(`Namesake! let's give another name`)
+                                            key || !findProductNamesake ? resolve() : reject(`Namesake! let's give another name`)
                                     })
                                 }
                             },
@@ -53,7 +53,17 @@ const ModalFormProduct = (props) => {
                             {required: true, message: 'Please input your number quantity!'},
                         ]}
                     >
-                        <Input type={'number'} min={0}/>
+                        <Input type={'number'} min={0} />
+                    </Form.Item>
+
+                    <Form.Item
+                        label="Price Product"
+                        name="price"
+                        rules={[
+                            {required: true, message: 'Please input your number price!'},
+                        ]}
+                    >
+                        <Input type={'number'} min={0} />
                     </Form.Item>
 
                     <Form.Item label="Upload" valuePropName="fileList">

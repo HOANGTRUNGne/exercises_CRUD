@@ -20,8 +20,10 @@ const items = [
         key: 'propduct',
     },
     {
-        label: 'Service',
-        key: 'service',
+        label: (<NavLink to={'/order'}>
+            Order
+        </NavLink>),
+        key: 'order',
     },
     {
         label: 'Contact',

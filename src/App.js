@@ -1,11 +1,12 @@
 import './App.css';
 import './style/header.css'
 import './style/main.css'
-import Navbar from "./component/Navbar";
+import Navbar from "./component/utils/Navbar";
 import User from "./component/customer/User";
 import { Layout} from 'antd';
 import {Route, Routes} from "react-router-dom";
 import Product from "./component/product/Product";
+import Order from "./component/Order/Order";
 const { Header, Content } = Layout;
 
 
@@ -35,6 +36,7 @@ function App() {
                 <Routes>
                     <Route path={'/'} element={<User />}/>
                     <Route path={'/user'} element={<User />}/>
+                    <Route path={'/order'} element={<Order />}/>
                     <Route path={'/product'} element={<Product />}/>
 
 
