@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import { Button, Form, InputNumber, Tabs} from "antd";
 import {getAll} from "../../api/CRUD";
-import SelectCustomers from "./SelectCustomers";
-import SelectProduct from "./SelectProduct";
+import OrderCustomers from './OrderCustomers'
+import OrderProduct from './OrderProduct'
 
 
 const Order = () => {
@@ -35,19 +35,19 @@ const Order = () => {
     // }
 
     const arrTabs = [
-        {
-            key: '1',
-            label: `Customer`,
-            children: (<SelectCustomers {...{customers}}/>),
-        },
+        // {
+        //     key: '1',
+        //     label: `Customer`,
+        //     children: (<OrderCustomers {...{customers}}/>),
+        // },
         {
             key: '2',
             label: `Product`,
-            children: (<SelectProduct {...{product}} />),
+            children: (<OrderProduct {...{product}} />),
         },
         {
             key: '3',
-            label: `Table`,
+            label: `Cart`,
             children: `Content of Tab Pane 3`,
         },
     ];

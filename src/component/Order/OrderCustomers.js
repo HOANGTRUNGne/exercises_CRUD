@@ -1,7 +1,7 @@
 import React from 'react';
 import {Avatar, Form, Select} from "antd";
 
-const SelectCustomers = (props) => {
+const OrderCustomers = (props) => {
     const {customers} = props
     return (
         <>
@@ -21,4 +21,4 @@ const SelectCustomers = (props) => {
     );
 };
 
-export default SelectCustomers;
+export default OrderCustomers;
